@@ -10,7 +10,7 @@
         <tr>
             <td>{{$widget->title}}</td>
             <td>
-                <a href="{{ route('widgetDetail', ['widget' => $widget->id]) }}">Детали</a>
+                <a href="{{ route('widgetDetail', ['widgetModel' => $widget->id]) }}">Детали</a>
             </td>
         </tr>
         @endforeach

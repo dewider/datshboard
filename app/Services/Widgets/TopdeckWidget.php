@@ -8,17 +8,18 @@ use Illuminate\Support\Facades\Http;
 class TopdeckWidget extends AbstractWidget
 {
     protected $urlList = [];
+    protected $view = 'widget.topdeck';
 
-    public function __construct(Widget $widget)
+    public function __construct(Widget $widgetModel)
     {
-        $widgetConfig = json_decode($widget->data);
+        $widgetConfig = json_decode($widgetModel->data);
         $this->urlList = $widgetConfig->urlList;
     }
 
     public function getViewContext(): array
     {
         return [
-            'table' => print_r(self::getCompareTable($this->urlList), true)
+            'table' => self::getCompareTable($this->urlList)
         ];
     }
 

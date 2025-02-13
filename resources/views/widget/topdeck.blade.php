@@ -7,16 +7,16 @@
     <thead>
         <tr>
             <td>Продавец</td>
-            @foreach ($table['cardNameByColIndex'] as $cardName)
+            @foreach ($data['cardNameByColIndex'] as $cardName)
                 <td>{{ $cardName }}</td>
             @endforeach
         </tr>
     </thead>
     <tboby>
-        @foreach ($table['rows'] as $sellerName => $row)
+        @foreach ($data['rows'] as $sellerName => $row)
         <tr>
             <td>{{ $sellerName }}</td>
-            @for ($colIndex = 0; $colIndex < count($table['cardNameByColIndex']); $colIndex++)
+            @for ($colIndex = 0; $colIndex < count($data['cardNameByColIndex']); $colIndex++)
                 <td>{{ isset($row[$colIndex]) ? $row[$colIndex] . 'р' : '-' }}</td>
             @endfor
         </tr>

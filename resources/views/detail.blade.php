@@ -3,6 +3,6 @@
 @section('title', '')
 
 @section('main')
-<pre>{{ print_r($table, true) }}</pre>
+<pre>{{ print_r($data, true) }}</pre>
 @endsection('main')
 

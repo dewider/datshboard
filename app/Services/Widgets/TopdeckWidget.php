@@ -19,7 +19,7 @@ class TopdeckWidget extends AbstractWidget
     public function getViewContext(): array
     {
         return [
-            'table' => self::getCompareTable($this->urlList)
+            'data' => self::getCompareTable($this->urlList)
         ];
     }
 

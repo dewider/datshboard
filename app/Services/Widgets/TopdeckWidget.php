@@ -5,6 +5,9 @@ namespace App\Services\Widgets;
 use App\Models\Widget;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * Класс для получения сводной таблицы цен у продавцов на topdeck.ru
+ */
 class TopdeckWidget extends AbstractWidget
 {
     protected array $urlList = [];
@@ -20,7 +23,7 @@ class TopdeckWidget extends AbstractWidget
 
     public function getViewContext(): array
     {
-        // $this->loadTable();
+        // $this->runTasks();
         $data = json_decode($this->widgetModel->data, true);
         self::sortRows($data['rows']);
         return [
@@ -28,12 +31,29 @@ class TopdeckWidget extends AbstractWidget
         ];
     }
 
+    public function runTasks(): bool
+    {
+        $this->loadTable();
+        return true;
+    }
+
+    /**
+     * Сохранение таблицы виджета в БД
+     * 
+     * @return void
+     */
     public function loadTable(): void
     {
         $this->widgetModel->data = json_encode(self::getCompareTable($this->urlList));
         $this->widgetModel->save();
     }
 
+    /**
+     * Парсит цены у продавцов на странице
+     * 
+     * @param string $url
+     * @return array
+     */
     public static function parsePage(string $url): array
     {
         $response = Http::get($url);
@@ -50,13 +70,24 @@ class TopdeckWidget extends AbstractWidget
         return $positions;
     }
 
-    protected static function sortRows(&$rows)
+    /**
+     * Сортировка строк таблицы
+     * 
+     * @param array &$rows
+     */
+    protected static function sortRows(array &$rows)
     {
         uasort($rows, function ($itemA, $itemB) {
             return count($itemB) <=> count($itemA);
         });
     }
 
+    /**
+     * Получение сводной таблицы по всем позициям с минимальными ценами
+     * 
+     * @param array $urlList
+     * @return array
+     */
     public static function getCompareTable(array $urlList): array
     {
         $rows = [];

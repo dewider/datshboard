@@ -27,7 +27,8 @@ class TopdeckWidget extends AbstractWidget
         $data = json_decode($this->widgetModel->data, true);
         self::sortRows($data['rows']);
         return [
-            'data' => $data
+            'data' => $data,
+            'widget' => $this->widgetModel
         ];
     }
 
@@ -93,6 +94,7 @@ class TopdeckWidget extends AbstractWidget
         $rows = [];
         $cardNameByColIndex = [];
         $cardColIndex = 0;
+        $minPrices = [];
         foreach ($urlList as $url) {
             $positions = self::parsePage($url);
             if (empty($positions)) {
@@ -106,6 +108,7 @@ class TopdeckWidget extends AbstractWidget
             foreach ($positions as $position) {
                 $minPrice = ($minPrice < 0 || $position->cost < $minPrice) ? $position->cost : $minPrice;
             }
+            $minPrices[$cardColIndex] = $minPrice;
 
             foreach ($positions as $position) {
                 if ($position->cost <= $minPrice + ($minPrice * 0.5) + 100) {
@@ -124,6 +127,7 @@ class TopdeckWidget extends AbstractWidget
         return [
             'rows' => $rows,
             'cardNameByColIndex' => $cardNameByColIndex,
+            'minPrices' => $minPrices,
         ];
     }
 }

@@ -1,14 +1,20 @@
 @extends('layouts.base')
 
-@section('title', '')
+@section('title', $widget->title)
 
 @section('main')
+<div>
+    Обновлено: {{ $widget->updated_at }}
+</div>
 <table class="table table-striped">
     <thead>
         <tr>
             <td>Продавец</td>
-            @foreach ($data['cardNameByColIndex'] as $cardName)
-                <td>{{ $cardName }}</td>
+            @foreach ($data['cardNameByColIndex'] as $colIndex => $cardName)
+                <td>
+                    <div>{{ $cardName }}</div>
+                    <div>min: {{ $data['minPrices'][$colIndex] }}р</div>
+                </td>
             @endforeach
         </tr>
     </thead>

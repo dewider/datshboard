@@ -6,7 +6,7 @@ use App\Models\Widget;
 
 abstract class AbstractWidget
 {
-    protected $view = 'detail';
+    protected string $view = 'detail';
 
     abstract public function getViewContext(): array;
 

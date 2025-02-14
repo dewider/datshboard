@@ -7,20 +7,31 @@ use Illuminate\Support\Facades\Http;
 
 class TopdeckWidget extends AbstractWidget
 {
-    protected $urlList = [];
-    protected $view = 'widget.topdeck';
+    protected array $urlList = [];
+    protected string $view = 'widget.topdeck';
+    protected Widget $widgetModel;
 
     public function __construct(Widget $widgetModel)
     {
-        $widgetConfig = json_decode($widgetModel->data);
+        $widgetConfig = json_decode($widgetModel->config);
         $this->urlList = $widgetConfig->urlList;
+        $this->widgetModel = $widgetModel;
     }
 
     public function getViewContext(): array
     {
+        // $this->loadTable();
+        $data = json_decode($this->widgetModel->data, true);
+        self::sortRows($data['rows']);
         return [
-            'data' => self::getCompareTable($this->urlList)
+            'data' => $data
         ];
+    }
+
+    public function loadTable(): void
+    {
+        $this->widgetModel->data = json_encode(self::getCompareTable($this->urlList));
+        $this->widgetModel->save();
     }
 
     public static function parsePage(string $url): array
@@ -37,6 +48,13 @@ class TopdeckWidget extends AbstractWidget
         $positions = json_decode($json);
 
         return $positions;
+    }
+
+    protected static function sortRows(&$rows)
+    {
+        uasort($rows, function ($itemA, $itemB) {
+            return count($itemB) <=> count($itemA);
+        });
     }
 
     public static function getCompareTable(array $urlList): array
@@ -60,17 +78,17 @@ class TopdeckWidget extends AbstractWidget
 
             foreach ($positions as $position) {
                 if ($position->cost <= $minPrice + ($minPrice * 0.5) + 100) {
-                    $sellerName = is_object($position->seller) ? $position->seller->name : $position->seller; 
-                    $rows[$sellerName][$cardColIndex] = $position->cost;
+                    $sellerName = is_object($position->seller) ? $position->seller->name : $position->seller;
+                    if (!isset($rows[$sellerName][$cardColIndex]) || $rows[$sellerName][$cardColIndex] > $position->cost) {
+                        $rows[$sellerName][$cardColIndex] = $position->cost;
+                    }
                 }
             }
             $cardColIndex++;
             sleep(5);
         }
 
-        uasort($rows, function ($itemA, $itemB) {
-            return count($itemB) <=> count($itemA);
-        });
+        // self::sortRows($rows);
 
         return [
             'rows' => $rows,

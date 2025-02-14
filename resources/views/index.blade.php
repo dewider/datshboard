@@ -4,17 +4,14 @@
 
 @section('main')
 @if (!empty($widgets))
-<table class="table table-striped">
-    <thead>
+<div class="container">
+    <div class="row g-3">
         @foreach ($widgets as $widget)
-        <tr>
-            <td>{{$widget->title}}</td>
-            <td>
-                <a href="{{ route('widgetDetail', ['widgetModel' => $widget->id]) }}">Детали</a>
-            </td>
-        </tr>
+        <div class="col">
+            @include($widget->getPreViewName(), ['widget' => $widget])
+        </div>
         @endforeach
-    </thead>
-</table>
+    </div>
+</div>
 @endif
 @endsection('main')

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Services\Widgets\WidgetFactory;
 
 class Widget extends Model
 {
@@ -13,4 +14,9 @@ class Widget extends Model
         'data',
         'class',
     ];
+
+    public function getPreViewName(): string
+    {
+        return WidgetFactory::build($this)->getViewName() . '-preview';
+    }
 }

@@ -8,7 +8,7 @@ Route::get('/', [DashboardController::class, 'index']);
 Route::get('/widget/{widgetModel}', [DashboardController::class, 'detail'])->name('widgetDetail');
 
 Route::get('/admin', function () {
-    return view('admin');
+    return view('adminpanel');
 })->middleware(['auth', 'verified'])->name('admin');
 
 Route::middleware('auth')->group(function () {

@@ -27,6 +27,7 @@ class TopdeckWidget extends AbstractWidget
         $data = json_decode($this->widgetModel->data, true);
         self::sortRows($data['rows']);
         return [
+            'config' => json_decode($this->widgetModel->config, true),
             'data' => $data,
             'widget' => $this->widgetModel
         ];

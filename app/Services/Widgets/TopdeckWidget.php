@@ -4,6 +4,7 @@ namespace App\Services\Widgets;
 
 use App\Models\Widget;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
 
 /**
  * Класс для получения сводной таблицы цен у продавцов на topdeck.ru
@@ -31,6 +32,21 @@ class TopdeckWidget extends AbstractWidget
             'data' => $data,
             'widget' => $this->widgetModel
         ];
+    }
+
+    public function saveConfigFromRequest(Request $request): void
+    {
+        $config = json_decode($this->widgetModel->config, true);
+
+        $config['urlList'] = [];
+        foreach ($request->url as $url) {
+            if ($url != '') {
+                $config['urlList'][] = $url;
+            }
+        }
+
+        $this->widgetModel->config = json_encode($config);
+        $this->widgetModel->save();
     }
 
     public function runTasks(): bool

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Widget;
 // use App\Services\Widgets;
 use App\Services\Widgets\WidgetFactory;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -17,6 +18,13 @@ class AdminController extends Controller
     public function widgetDetail(Widget $widgetModel)
     {
         $widget = (new WidgetFactory)->build($widgetModel);
+        return view($widget->getViewName() . '-admin', $widget->getViewContext());
+    }
+
+    public function widgetSaveConfig(Request $request, Widget $widgetModel)
+    {
+        $widget = (new WidgetFactory)->build($widgetModel);
+        $widget->saveConfigFromRequest($request);
         return view($widget->getViewName() . '-admin', $widget->getViewContext());
     }
 }

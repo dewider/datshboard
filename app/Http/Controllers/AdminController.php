@@ -21,10 +21,10 @@ class AdminController extends Controller
         return view($widget->getViewName() . '-admin', $widget->getViewContext());
     }
 
-    public function widgetSaveConfig(Request $request, Widget $widgetModel)
+    public function widgetUpdateConfig(Request $request, Widget $widgetModel)
     {
         $widget = (new WidgetFactory)->build($widgetModel);
-        $widget->saveConfigFromRequest($request);
+        $widget->updateConfigFromRequest($request);
         return view($widget->getViewName() . '-admin', $widget->getViewContext());
     }
 }

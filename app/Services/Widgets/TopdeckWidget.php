@@ -34,7 +34,7 @@ class TopdeckWidget extends AbstractWidget
         ];
     }
 
-    public function saveConfigFromRequest(Request $request): void
+    public function updateConfigFromRequest(Request $request): void
     {
         $config = json_decode($this->widgetModel->config, true);
 

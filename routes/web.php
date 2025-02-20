@@ -17,8 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/admin/widget/{widgetModel}', [AdminController::class, 'widgetDetail'])->name('adminWidgetDetail');
-
-    Route::post('/admin/widget/{widgetModel}', [AdminController::class, 'widgetSaveConfig'])->name('adminWidgetSaveConfig');
+    Route::patch('/admin/widget/{widgetModel}', [AdminController::class, 'widgetUpdateConfig'])->name('adminWidgetUpdateConfig');
 });
 
 require __DIR__.'/auth.php';

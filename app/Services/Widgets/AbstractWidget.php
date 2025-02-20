@@ -18,7 +18,7 @@ abstract class AbstractWidget
     /**
      * Сохранения настроек из запроса
      */
-    abstract public function saveConfigFromRequest(Request $request): void;
+    abstract public function updateConfigFromRequest(Request $request): void;
 
     /**
      * Выполняет фоновые задачи виджета

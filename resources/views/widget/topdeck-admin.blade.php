@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ $widget->title }} : {{ __('настройки') }}
         </h2>
     </x-slot>
 
@@ -10,12 +10,14 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form
                     class="p-6 text-gray-900"
-                    action="{{ route('adminWidgetSaveConfig', ['widgetModel' => $widget->id]) }}"
-                    method="POST"
+                    action="{{ route('adminWidgetUpdateConfig', ['widgetModel' => $widget->id]) }}"
+                    method="post"
                 >
                     @csrf
-                    <h3>{{ $widget->title }}</h3>
-                    <br>
+                    @method('patch')
+                    <h3 class="text-lg font-medium text-gray-900">
+                        {{ __('Список ссылок') }}
+                    </h3>
                     @foreach ($config['urlList'] as $url)
                     <div>
                         <input
@@ -33,7 +35,7 @@
                         name="url[]"
                     />
                     <br>
-                    <button>Save</button>
+                    <x-primary-button>{{ __('Save') }}</x-primary-button>
                 </form>
             </div>
         </div>

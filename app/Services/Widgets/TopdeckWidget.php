@@ -24,7 +24,6 @@ class TopdeckWidget extends AbstractWidget
 
     public function getViewContext(): array
     {
-        // (new \App\Jobs\WidgetsUpdateJob)->handle();
         $data = json_decode($this->widgetModel->data, true);
         self::sortRows($data['rows']);
         return [

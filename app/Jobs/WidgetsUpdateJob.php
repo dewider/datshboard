@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Models\Widget;
 use App\Services\Widgets\WidgetFactory;
@@ -10,7 +11,7 @@ use App\Services\Widgets\WidgetFactory;
 /**
  * Обновляет данные виджетов
  */
-class WidgetsUpdateJob implements ShouldQueue
+class WidgetsUpdateJob implements ShouldQueue, ShouldBeUnique
 {
     use Queueable;
 

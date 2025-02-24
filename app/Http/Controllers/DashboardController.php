@@ -10,7 +10,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $context = ['widgets' => Widget::latest()->get()];
+        $context = ['widgets' => []];
+        foreach (Widget::latest()->get() as $widgetModel) {
+            $context['widgets'][] = (new WidgetFactory)->build($widgetModel);
+        }
         return view('index', $context);
     }
 

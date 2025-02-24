@@ -1,3 +1,3 @@
-<p class="h3">{{$widget->title}}</p>
-<a href="{{ route('widgetDetail', ['widgetModel' => $widget->id]) }}">Детали</a>
+<p class="h3">{{$widget->getTitle()}}</p>
+<a href="{{ route('widgetDetail', ['widgetModel' => $widget->getId()]) }}">Детали</a>
 

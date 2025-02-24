@@ -18,13 +18,13 @@ class AdminController extends Controller
     public function widgetDetail(Widget $widgetModel)
     {
         $widget = (new WidgetFactory)->build($widgetModel);
-        return view($widget->getViewName() . '-admin', $widget->getViewContext());
+        return view($widget->getAdminViewName(), $widget->getViewContext());
     }
 
     public function widgetUpdateConfig(Request $request, Widget $widgetModel)
     {
         $widget = (new WidgetFactory)->build($widgetModel);
         $widget->updateConfigFromRequest($request);
-        return view($widget->getViewName() . '-admin', $widget->getViewContext());
+        return view($widget->getAdminViewName(), $widget->getViewContext());
     }
 }

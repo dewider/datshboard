@@ -13,7 +13,6 @@ class TopdeckWidget extends AbstractWidget
 {
     protected array $urlList = [];
     protected string $view = 'widget.topdeck';
-    protected Widget $widgetModel;
 
     public function __construct(Widget $widgetModel)
     {

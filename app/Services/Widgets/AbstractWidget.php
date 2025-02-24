@@ -3,10 +3,12 @@
 namespace App\Services\Widgets;
 
 use Illuminate\Http\Request;
+use App\Models\Widget;
 
 abstract class AbstractWidget
 {
     protected string $view = 'detail';
+    protected Widget $widgetModel;
 
     /**
      * Возвращает контекст для шаблона
@@ -32,9 +34,55 @@ abstract class AbstractWidget
 
     /**
      * Возвращает имя шаблона для виджета
+     * 
+     * @param string $postfix
+     * @return string
      */
-    public function getViewName(): string
+    public function getViewName(string $postfix = ''): string
     {
+        if ($postfix != '') {
+            return $this->view . '-' . $postfix;
+        }
         return $this->view;
+    }
+
+    /**
+     * Возвращает имя шаблона превью для виджета
+     * 
+     * @return string
+     */
+    public function getPreViewName(): string
+    {
+        return $this->getViewName('preview');
+    }
+
+    /**
+     * Возвращает имя шаблона страницы редактирования настроек виджета
+     * 
+     * @return string
+     */
+    public function getAdminViewName(): string
+    {
+        return $this->getViewName('admin');
+    }
+
+    /**
+     * Возвращает название виджета
+     * 
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->widgetModel->title;
+    }
+
+    /**
+     * Возвращает ID виджета
+     * 
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->widgetModel->id;
     }
 }

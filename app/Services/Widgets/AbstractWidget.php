@@ -9,7 +9,6 @@ abstract class AbstractWidget
 {
     protected string $view = 'detail';
     protected Widget $widgetModel;
-    protected string $typeName;
 
     /**
      * Возвращает контекст для шаблона

@@ -9,6 +9,7 @@ abstract class AbstractWidget
 {
     protected string $view = 'detail';
     protected Widget $widgetModel;
+    protected string $typeName;
 
     /**
      * Возвращает контекст для шаблона
@@ -21,6 +22,13 @@ abstract class AbstractWidget
      * Сохранения настроек из запроса
      */
     abstract public function updateConfigFromRequest(Request $request): void;
+
+    /**
+     * Возвращает названия типа виджета
+     * 
+     * @return string
+     */
+    abstract public function getTypeName(): string;
 
     /**
      * Выполняет фоновые задачи виджета

@@ -53,6 +53,11 @@ class TopdeckWidget extends AbstractWidget
         return true;
     }
 
+    public function getTypeName(): string
+    {
+        return 'Topdeck';
+    }
+
     /**
      * Сохранение таблицы виджета в БД
      * 

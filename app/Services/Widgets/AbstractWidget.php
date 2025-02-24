@@ -40,10 +40,9 @@ abstract class AbstractWidget
      */
     public function getViewName(string $postfix = ''): string
     {
-        if ($postfix != '') {
-            return $this->view . '-' . $postfix;
-        }
-        return $this->view;
+        return ($postfix != '')
+            ? $this->view . '-' . $postfix
+            : $this->view;
     }
 
     /**

@@ -1,8 +1,7 @@
-@extends('layouts.base')
+<x-base-layout>
+    <x-slot name="title">
+        {{ __('Виджет') }}
+    </x-slot>
 
-@section('title', '')
-
-@section('main')
-<pre>{{ print_r($data, true) }}</pre>
-@endsection('main')
-
+    <pre>{{ print_r($data, true) }}</pre>
+</x-base-layout>

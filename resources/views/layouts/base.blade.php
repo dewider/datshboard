@@ -9,8 +9,8 @@
 
 <body>
     <div class="container">
-        <h1 class="my-3 text-center">@yield('title')</h1>
-        @yield('main')
+        <h1 class="my-3 text-center">{{ $title }}</h1>
+        {{ $slot }}
     </div>
 </body>
 

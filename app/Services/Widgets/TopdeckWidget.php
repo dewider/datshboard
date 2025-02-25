@@ -28,7 +28,7 @@ class TopdeckWidget extends AbstractWidget
         return [
             'config' => json_decode($this->widgetModel->config, true),
             'data' => $data,
-            'widget' => $this->widgetModel
+            'widget' => (new WidgetFactory)->build($this->widgetModel),
         ];
     }
 

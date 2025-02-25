@@ -91,4 +91,14 @@ abstract class AbstractWidget
     {
         return $this->widgetModel->id;
     }
+
+    /**
+     * Возвращает дату обновления
+     * 
+     * @return string
+     */
+    public function getUpdatedAt(): string
+    {
+        return $this->widgetModel->updated_at;
+    }
 }

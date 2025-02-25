@@ -1,17 +1,17 @@
-@extends('layouts.base')
+<x-base-layout>
+    <x-slot name="title">
+        {{ __('Виджеты') }}
+    </x-slot>
 
-@section('title', 'Виджеты')
-
-@section('main')
-@if (!empty($widgets))
-<div class="container">
-    <div class="row g-3">
-        @foreach ($widgets as $widget)
-        <div class="col">
-            @include($widget->getPreViewName(), ['widget' => $widget])
+    @if (!empty($widgets))
+        <div class="container">
+            <div class="row g-3">
+                @foreach ($widgets as $widget)
+                    <div class="col">
+                        @include($widget->getPreViewName(), ['widget' => $widget])
+                    </div>
+                @endforeach
+            </div>
         </div>
-        @endforeach
-    </div>
-</div>
-@endif
-@endsection('main')
+    @endif
+</x-base-layout>

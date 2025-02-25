@@ -1,7 +1,7 @@
 <x-admin-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $widget->title }} : {{ __('настройки') }}
+            {{ $widget->getTitle() }} : {{ __('настройки') }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form
                     class="p-6 text-gray-900"
-                    action="{{ route('adminWidgetUpdateConfig', ['widgetModel' => $widget->id]) }}"
+                    action="{{ route('adminWidgetUpdateConfig', ['widgetModel' => $widget->getId()]) }}"
                     method="post"
                 >
                     @csrf

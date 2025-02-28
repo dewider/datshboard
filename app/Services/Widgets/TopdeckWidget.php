@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 class TopdeckWidget extends AbstractWidget
 {
     protected array $urlList = [];
-    protected string $view = 'widget.topdeck';
 
     public function __construct(Widget $widgetModel)
     {
@@ -60,6 +59,11 @@ class TopdeckWidget extends AbstractWidget
     public static function getTypeName(): string
     {
         return 'topdeck';
+    }
+
+    public function getViewName(): string
+    {
+        return 'widget.topdeck';
     }
 
     /**

@@ -9,7 +9,6 @@ use Illuminate\Validation;
 
 abstract class AbstractWidget
 {
-    protected string $view = 'detail';
     protected Widget $widgetModel;
 
     /**
@@ -32,6 +31,13 @@ abstract class AbstractWidget
     abstract public static function getTypeName(): string;
 
     /**
+     * Возвращает имя шаблона для виджета
+     * 
+     * @return string
+     */
+    abstract public function getViewName(): string;
+
+    /**
      * Выполняет фоновые задачи виджета
      * 
      * @return bool
@@ -52,26 +58,13 @@ abstract class AbstractWidget
     }
 
     /**
-     * Возвращает имя шаблона для виджета
-     * 
-     * @param string $postfix
-     * @return string
-     */
-    public function getViewName(string $postfix = ''): string
-    {
-        return ($postfix != '')
-            ? $this->view . '-' . $postfix
-            : $this->view;
-    }
-
-    /**
      * Возвращает имя шаблона превью для виджета
      * 
      * @return string
      */
     public function getPreViewName(): string
     {
-        return $this->getViewName('preview');
+        return $this->getViewName() . '-preview';
     }
 
     /**
@@ -81,7 +74,7 @@ abstract class AbstractWidget
      */
     public function getAdminViewName(): string
     {
-        return $this->getViewName('admin');
+        return $this->getViewName() . '-admin';
     }
 
     /**

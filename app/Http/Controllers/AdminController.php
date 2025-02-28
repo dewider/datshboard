@@ -40,7 +40,6 @@ class AdminController extends Controller
 
         $widgetsDir = __DIR__ . '/../../Services/Widgets';
         $widgetsFiles = array_diff(scandir($widgetsDir), array('..', '.'));
-        $test = [];
         foreach ($widgetsFiles as $widgetFileName) {
             $widgetClass = '\\App\\Services\\Widgets\\' . str_replace('.php', '', $widgetFileName);
             if ((new ReflectionClass($widgetClass))->isSubclassOf(AbstractWidget::class)) {

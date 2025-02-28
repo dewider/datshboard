@@ -57,9 +57,9 @@ class TopdeckWidget extends AbstractWidget
         return true;
     }
 
-    public function getTypeName(): string
+    public static function getTypeName(): string
     {
-        return 'Topdeck';
+        return 'topdeck';
     }
 
     /**

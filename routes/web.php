@@ -18,6 +18,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/widget/{widgetModel}', [AdminController::class, 'widgetDetail'])->name('adminWidgetDetail');
     Route::patch('/admin/widget/{widgetModel}', [AdminController::class, 'widgetUpdateConfig'])->name('adminWidgetUpdateConfig');
+    
+    Route::get('/admin/add-widget/', [AdminController::class, 'addWidget']);
 });
 
 require __DIR__.'/auth.php';

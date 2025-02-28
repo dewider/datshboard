@@ -29,7 +29,7 @@ abstract class AbstractWidget
      * 
      * @return string
      */
-    abstract public function getTypeName(): string;
+    abstract public static function getTypeName(): string;
 
     /**
      * Выполняет фоновые задачи виджета

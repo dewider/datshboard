@@ -24,6 +24,10 @@ class TopdeckWidget extends AbstractWidget
     public function getViewContext(): array
     {
         $data = json_decode($this->widgetModel->data, true);
+        if (empty($data)) {
+            $data['rows'] = [];
+            $data['cardNameByColIndex'] = [];
+        }
         self::sortRows($data['rows']);
         return [
             'config' => json_decode($this->widgetModel->config, true),

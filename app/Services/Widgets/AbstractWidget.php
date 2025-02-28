@@ -4,6 +4,8 @@ namespace App\Services\Widgets;
 
 use Illuminate\Http\Request;
 use App\Models\Widget;
+use Illuminate\Support\Facades;
+use Illuminate\Validation;
 
 abstract class AbstractWidget
 {
@@ -37,6 +39,16 @@ abstract class AbstractWidget
     public function runTasks(): bool
     {
         return true;
+    }
+
+    /**
+     * Валидация сохранения конфигураций
+     * 
+     * @return Validation\Validator
+     */
+    public function getConfigValidator(Request $request): Validation\Validator
+    {
+        return Facades\Validator::make($request->all(), []);
     }
 
     /**

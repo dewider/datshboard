@@ -14,9 +14,4 @@ class Widget extends Model
         'data',
         'class',
     ];
-
-    public function getPreViewName(): string
-    {
-        return WidgetFactory::build($this)->getViewName() . '-preview';
-    }
 }

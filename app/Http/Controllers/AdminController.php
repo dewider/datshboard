@@ -24,6 +24,8 @@ class AdminController extends Controller
     public function widgetUpdateConfig(Request $request, Widget $widgetModel)
     {
         $widget = (new WidgetFactory)->build($widgetModel);
+        $validator = $widget->getConfigValidator($request);
+        $validator->validate();
         $widget->updateConfigFromRequest($request);
         return view($widget->getAdminViewName(), $widget->getViewContext());
     }

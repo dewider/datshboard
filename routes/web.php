@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/admin/add-widget/', [AdminController::class, 'addWidget'])->name('adminAddWidget');
     Route::post('/admin/add-widget/', [AdminController::class, 'saveWidget']);
+    Route::get('/admin/delete-widget/{widget}', [AdminController::class, 'deleteWidget'])->name('adminDeleteWidget');
 });
 
 require __DIR__.'/auth.php';

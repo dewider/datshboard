@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveWidgetRequest;
 use App\Models\Widget;
 use App\Services\Widgets\Helper;
 // use App\Services\Widgets;
@@ -36,9 +37,23 @@ class AdminController extends Controller
         return view('admin.add-widget', ['widgetTypeList' => array_keys(Helper::getWidgetsList())]);
     }
 
-    public function saveWidget()
+    public function saveWidget(SaveWidgetRequest $request)
     {
-        return redirect(route('adminAddWidget'));
+        Widget::create([
+            'title' => $request->get('title'),
+            'config' => json_encode([
+                'urlList' => []
+            ]),
+            'data' => json_encode([]),
+            'class' => Helper::getWidgetsList()[$request->get('type')]
+        ]);
+        return redirect(route('admin'));
+    }
+
+    public function deleteWidget(Widget $widget)
+    {
+        $widget->delete();
+        return redirect(route('admin'));
     }
     
 }

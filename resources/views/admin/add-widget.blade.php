@@ -20,7 +20,7 @@
                     @endif
                     <form
                         class="p-6 text-gray-900"
-                        action=""
+                        action="{{ route('adminSaveWidget') }}"
                         method="post">
                         @csrf
 

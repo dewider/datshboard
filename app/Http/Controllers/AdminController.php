@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveWidgetRequest;
 use App\Models\Widget;
-use App\Services\Widgets\Helper;
 // use App\Services\Widgets;
 use App\Services\Widgets\Widgets;
 use Illuminate\Http\Request;

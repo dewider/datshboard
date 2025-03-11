@@ -31,7 +31,7 @@ class TopdeckWidget extends AbstractWidget
         return [
             'config' => json_decode($this->widgetModel->config, true),
             'data' => $data,
-            'widget' => (new WidgetFactory)->build($this->widgetModel),
+            'widget' => Widgets::createFromModel($this->widgetModel),
         ];
     }
 

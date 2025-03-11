@@ -6,7 +6,7 @@ use App\Http\Requests\SaveWidgetRequest;
 use App\Models\Widget;
 use App\Services\Widgets\Helper;
 // use App\Services\Widgets;
-use App\Services\Widgets\WidgetFactory;
+use App\Services\Widgets\Widgets;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -19,13 +19,13 @@ class AdminController extends Controller
 
     public function widgetDetail(Widget $widgetModel)
     {
-        $widget = (new WidgetFactory)->build($widgetModel);
+        $widget = Widgets::createFromModel($widgetModel);
         return view($widget->getAdminViewName(), $widget->getViewContext());
     }
 
     public function widgetUpdateConfig(Request $request, Widget $widgetModel)
     {
-        $widget = (new WidgetFactory)->build($widgetModel);
+        $widget = Widgets::createFromModel($widgetModel);
         $validator = $widget->getConfigValidator($request);
         $validator->validate();
         $widget->updateConfigFromRequest($request);
@@ -34,7 +34,7 @@ class AdminController extends Controller
 
     public function addWidget()
     {
-        return view('admin.add-widget', ['widgetTypeList' => array_keys(Helper::getWidgetsList())]);
+        return view('admin.add-widget', ['widgetTypeList' => array_keys(Widgets::getList())]);
     }
 
     public function saveWidget(SaveWidgetRequest $request)
@@ -45,7 +45,7 @@ class AdminController extends Controller
                 'urlList' => []
             ]),
             'data' => json_encode([]),
-            'class' => Helper::getWidgetsList()[$request->get('type')]
+            'class' => Widgets::getList()[$request->get('type')]
         ]);
         return redirect(route('admin'));
     }

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Foundation\Queue\Queueable;
 use App\Models\Widget;
-use App\Services\Widgets\WidgetFactory;
+use App\Services\Widgets\Widgets;
 
 /**
  * Обновляет данные виджетов
@@ -29,7 +29,7 @@ class WidgetsUpdateJob implements ShouldQueue, ShouldBeUnique
     public function handle(): void
     {
         foreach (Widget::latest()->get() as $widget) {
-            (new WidgetFactory)->build($widget)->runTasks();
+            Widgets::createFromModel($widget)->runTasks();
         }
     }
 }

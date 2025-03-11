@@ -3,10 +3,11 @@
 namespace App\Services\Widgets;
 
 use ReflectionClass;
+use App\Models;
 
-class Helper
+class Widgets
 {
-    public static function getWidgetsList(): array
+    public static function getList(): array
     {
         $widgetsFiles = array_diff(scandir(__DIR__), array('..', '.'));
         $result = [];
@@ -18,5 +19,10 @@ class Helper
             }
         }
         return $result;
+    }
+
+    public static function createFromModel(Models\Widget $widget): AbstractWidget
+    {
+        return new ($widget->class)($widget);
     }
 }

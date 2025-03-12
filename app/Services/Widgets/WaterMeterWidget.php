@@ -40,7 +40,7 @@ class WaterMeterWidget extends AbstractWidget
 
     public function runTasks(): bool
     {
-        $this->getMetersValue();
+        // $this->getMetersValue();
         return true;
     }
 
@@ -62,7 +62,7 @@ class WaterMeterWidget extends AbstractWidget
     public function getMetersValue(): void
     {
         $config = json_decode($this->widgetModel->config, true);
-        $response = Http::accept('text/xml')->get('http://' . $config['url']);
+        $response = Http::accept('text/xml')->get($config['url']);
         $xml = new \SimpleXMLElement($response->body());
         $data = [
             'cold' => $xml->waterMeter->cold,

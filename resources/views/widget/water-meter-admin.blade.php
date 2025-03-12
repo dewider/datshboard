@@ -20,9 +20,9 @@
                     </h3>
                     <input
                         type="text"
-                        value=""
+                        value="{{ $config['url'] }}"
                         style="width: 100%; display: block; margin-top: 10px;"
-                        name="url[]"
+                        name="url"
                     />
                     <br>
                     <x-primary-button>{{ __('Save') }}</x-primary-button>

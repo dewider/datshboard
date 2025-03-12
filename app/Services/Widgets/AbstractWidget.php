@@ -50,6 +50,8 @@ abstract class AbstractWidget
     /**
      * Валидация сохранения конфигураций
      * 
+     * TODO: сделать абстрактным
+     * 
      * @return Validation\Validator
      */
     public function getConfigValidator(Request $request): Validation\Validator

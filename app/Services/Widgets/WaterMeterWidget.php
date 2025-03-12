@@ -4,6 +4,7 @@ namespace App\Services\Widgets;
 
 use App\Models\Widget;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 /**
  * Класс для получения сводной таблицы цен у продавцов на topdeck.ru
@@ -18,9 +19,8 @@ class WaterMeterWidget extends AbstractWidget
 
     public function getViewContext(): array
     {
+        // $this->getMetersValue();
         $data = json_decode($this->widgetModel->data, true);
-        $data['hot'] = 111;
-        $data['cold'] = 222;
         return [
             'config' => json_decode($this->widgetModel->config, true),
             'data' => $data,
@@ -31,6 +31,8 @@ class WaterMeterWidget extends AbstractWidget
     public function updateConfigFromRequest(Request $request): void
     {
         $config = json_decode($this->widgetModel->config, true);
+
+        $config['url'] = $request->get('url');
 
         $this->widgetModel->config = json_encode($config);
         $this->widgetModel->save();
@@ -59,7 +61,14 @@ class WaterMeterWidget extends AbstractWidget
      */
     public function getMetersValue(): void
     {
-        // $this->widgetModel->data = json_encode(self::getCompareTable($this->urlList));
+        $config = json_decode($this->widgetModel->config, true);
+        $response = Http::accept('text/xml')->get('http://' . $config['url']);
+        $xml = new \SimpleXMLElement($response->body());
+        $data = [
+            'cold' => $xml->waterMeter->cold,
+            'hot' => $xml->waterMeter->hot,
+        ];
+        $this->widgetModel->data = json_encode($data);
         $this->widgetModel->save();
     }
 

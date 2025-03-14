@@ -19,10 +19,13 @@ class WaterMeterWidget extends AbstractWidget
 
     public function getViewContext(): array
     {
-        // $this->getMetersValue();
         $data = json_decode($this->widgetModel->data, true);
+        $config = json_decode($this->widgetModel->config, true);
+        if (!isset($config['url'])) {
+            $config['url'] = '';
+        }
         return [
-            'config' => json_decode($this->widgetModel->config, true),
+            'config' => $config,
             'data' => $data,
             'widget' => Widgets::createFromModel($this->widgetModel),
         ];
@@ -40,7 +43,7 @@ class WaterMeterWidget extends AbstractWidget
 
     public function runTasks(): bool
     {
-        // $this->getMetersValue();
+        $this->getMetersValue();
         return true;
     }
 
@@ -65,8 +68,8 @@ class WaterMeterWidget extends AbstractWidget
         $response = Http::accept('text/xml')->get($config['url']);
         $xml = new \SimpleXMLElement($response->body());
         $data = [
-            'cold' => $xml->waterMeter->cold,
-            'hot' => $xml->waterMeter->hot,
+            'cold' => $xml->cold[0]->__toString(),
+            'hot' => $xml->hot[0]->__toString(),
         ];
         $this->widgetModel->data = json_encode($data);
         $this->widgetModel->save();

@@ -5,6 +5,8 @@ namespace App\Services\Widgets;
 use App\Models\Widget;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Validation;
+use Illuminate\Support\Facades;
 
 /**
  * Класс для получения сводной таблицы цен у продавцов на topdeck.ru
@@ -64,6 +66,11 @@ class TopdeckWidget extends AbstractWidget
     public function getViewName(): string
     {
         return 'widget.topdeck';
+    }
+
+    public function getConfigValidator(Request $request): Validation\Validator
+    {
+        return Facades\Validator::make($request->all(), []);
     }
 
     /**

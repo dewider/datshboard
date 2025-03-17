@@ -28,8 +28,12 @@ class WidgetsUpdateJob implements ShouldQueue, ShouldBeUnique
      */
     public function handle(): void
     {
-        foreach (Widget::latest()->get() as $widget) {
-            Widgets::createFromModel($widget)->runTasks();
+        try {
+            foreach (Widget::latest()->get() as $widget) {
+                Widgets::createFromModel($widget)->runTasks();
+            }
+        } catch (\Exception $err) {
+            
         }
     }
 }

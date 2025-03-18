@@ -22,12 +22,12 @@ class AdminController extends Controller
         return view($widget->getAdminViewName(), $widget->getViewContext());
     }
 
-    public function widgetUpdateConfig(Request $request, Widget $widgetModel)
+    public function updateWidget(Request $request, Widget $widgetModel)
     {
         $widget = Widgets::createFromModel($widgetModel);
         $validator = $widget->getConfigValidator($request);
         $validator->validate();
-        $widget->updateConfigFromRequest($request);
+        $widget->updateFromRequest($request);
         return redirect(route('adminWidgetDetail', ['widgetModel' => $widget->getId()]));
     }
 

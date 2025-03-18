@@ -37,19 +37,17 @@ class TopdeckWidget extends AbstractWidget
         ];
     }
 
-    public function updateConfigFromRequest(Request $request): void
+    public function updateConfigFromRequest(Request $request): array
     {
-        $config = json_decode($this->widgetModel->config, true);
-
-        $config['urlList'] = [];
+        $result = [
+            'urlList' => []
+        ];
         foreach ($request->url as $url) {
             if ($url != '') {
-                $config['urlList'][] = $url;
+                $result['urlList'][] = $url;
             }
         }
-
-        $this->widgetModel->config = json_encode($config);
-        $this->widgetModel->save();
+        return $result;
     }
 
     public function runTasks(): bool

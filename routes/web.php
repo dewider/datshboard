@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/admin/widget/{widgetModel}', [AdminController::class, 'widgetDetail'])->name('adminWidgetDetail');
-    Route::patch('/admin/widget/{widgetModel}', [AdminController::class, 'widgetUpdateConfig'])->name('adminWidgetUpdateConfig');
+    Route::patch('/admin/widget/{widgetModel}', [AdminController::class, 'updateWidget'])->name('adminWidgetUpdate');
     Route::post('/admin/widget/', [AdminController::class, 'saveWidget'])->name('adminSaveWidget');
     
     Route::get('/admin/add-widget/', [AdminController::class, 'addWidget'])->name('adminAddWidget');

@@ -19,8 +19,27 @@ abstract class AbstractWidget
 
     /**
      * Сохранения настроек из запроса
+     * 
+     * @return Request
      */
-    abstract public function updateConfigFromRequest(Request $request): void;
+    public function updateFromRequest(Request $request): void
+    {
+        if ($title = $request->title) {
+            $this->widgetModel->title = $title;
+        }
+        $config = json_decode($this->widgetModel->config, true);
+        $config = array_merge($config, $this->updateConfigFromRequest($request));
+        $this->widgetModel->config = json_encode($config);
+        $this->widgetModel->save();
+    }
+
+    /**
+     * Сохранения настроек из запроса
+     * Реализация для виджета
+     * 
+     * @return Request
+     */
+    abstract public function updateConfigFromRequest(Request $request): array;
 
     /**
      * Возвращает названия типа виджета

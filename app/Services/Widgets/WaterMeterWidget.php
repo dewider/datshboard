@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation;
 use Illuminate\Support\Facades;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Класс для получения сводной таблицы цен у продавцов на topdeck.ru
@@ -15,7 +16,6 @@ class WaterMeterWidget extends AbstractWidget
 {
     public function __construct(Widget $widgetModel)
     {
-        $widgetConfig = json_decode($widgetModel->config);
         $this->widgetModel = $widgetModel;
     }
 
@@ -26,6 +26,7 @@ class WaterMeterWidget extends AbstractWidget
         if (!isset($config['url'])) {
             $config['url'] = '';
         }
+        $data = array_merge($data, $this->getMetersValue());
         return [
             'config' => $config,
             'data' => $data,
@@ -33,19 +34,19 @@ class WaterMeterWidget extends AbstractWidget
         ];
     }
 
-    public function updateConfigFromRequest(Request $request): void
+    public function updateConfigFromRequest(Request $request): array
     {
-        $config = json_decode($this->widgetModel->config, true);
-
-        $config['url'] = $request->get('url');
-
-        $this->widgetModel->config = json_encode($config);
-        $this->widgetModel->save();
+        $result = [
+            'url' => $request->get('url')
+        ];
+        return $result;
     }
 
     public function runTasks(): bool
     {
-        $this->getMetersValue();
+        $data = $this->getMetersValue();
+        $this->widgetModel->data = json_encode($data);
+        $this->widgetModel->save();
         return true;
     }
 
@@ -67,19 +68,27 @@ class WaterMeterWidget extends AbstractWidget
     /**
      * Сохранение таблицы виджета в БД
      * 
-     * @return void
+     * @return array
      */
-    public function getMetersValue(): void
+    public function getMetersValue(): array
     {
-        $config = json_decode($this->widgetModel->config, true);
-        $response = Http::accept('text/xml')->get($config['url']);
-        $xml = new \SimpleXMLElement($response->body());
-        $data = [
-            'cold' => $xml->cold[0]->__toString(),
-            'hot' => $xml->hot[0]->__toString(),
-        ];
-        $this->widgetModel->data = json_encode($data);
-        $this->widgetModel->save();
+        $cacheKey = $this->getTypeName() . '_' . $this->getId();
+        $result = Cache::get($cacheKey);
+        if (!$result) {
+            $config = json_decode($this->widgetModel->config, true);
+            if (isset($config['url'])) {
+                $response = Http::accept('text/xml')->get($config['url']);
+                $xml = new \SimpleXMLElement($response->body());
+                $result = [
+                    'cold' => $xml->cold[0]->__toString(),
+                    'hot' => $xml->hot[0]->__toString(),
+                ];
+                Cache::put($cacheKey, $result, 3600);
+            } else {
+                $result = [];
+            }
+        }
+        return $result;
     }
 
 }

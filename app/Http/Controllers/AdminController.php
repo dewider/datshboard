@@ -40,9 +40,7 @@ class AdminController extends Controller
     {
         Widget::create([
             'title' => $request->get('title'),
-            'config' => json_encode([
-                'urlList' => []
-            ]),
+            'config' => json_encode([]),
             'data' => json_encode([]),
             'class' => Widgets::getList()[$request->get('type')]
         ]);

@@ -23,7 +23,15 @@
             <tr>
                 <td>{{ $sellerName }}</td>
                 @for ($colIndex = 0; $colIndex < count($data['cardNameByColIndex']); $colIndex++)
-                    <td>{{ isset($row[$colIndex]) ? $row[$colIndex] . 'р' : '-' }}</td>
+                    <td>
+                        @if (isset($row[$colIndex]))
+                        <a href="{{ $row[$colIndex]['url'] }}">
+                            {{ $row[$colIndex]['cost'] . 'р' }}
+                        </a>
+                        @else
+                        <p>-</p>
+                        @endif
+                    </td>
                     @endfor
             </tr>
             @endforeach

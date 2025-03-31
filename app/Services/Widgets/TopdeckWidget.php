@@ -15,6 +15,8 @@ class TopdeckWidget extends AbstractWidget
 {
     protected array $urlList = [];
 
+    const ONLY_MIN_PRICE_POSITIONS = false;
+
     public function __construct(Widget $widgetModel)
     {
         $widgetConfig = json_decode($widgetModel->config);
@@ -144,10 +146,13 @@ class TopdeckWidget extends AbstractWidget
             $minPrices[$cardColIndex] = $minPrice;
 
             foreach ($positions as $position) {
-                if ($position->cost <= $minPrice + ($minPrice * 0.5) + 100) {
+                if (!self::ONLY_MIN_PRICE_POSITIONS || $position->cost <= $minPrice + ($minPrice * 0.5) + 100) {
                     $sellerName = is_object($position->seller) ? $position->seller->name : $position->seller;
                     if (!isset($rows[$sellerName][$cardColIndex]) || $rows[$sellerName][$cardColIndex] > $position->cost) {
-                        $rows[$sellerName][$cardColIndex] = $position->cost;
+                        $rows[$sellerName][$cardColIndex] = [
+                            'cost' => $position->cost,
+                            'url' => $position->url
+                        ];
                     }
                 }
             }
